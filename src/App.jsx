@@ -91,7 +91,7 @@ function App() {
       <Header>
         <h1>Koharu</h1>
         <audio ref={audioRef} loop>
-          <source src="/audio/midsummer_cat.mp3" type="audio/mpeg" />
+          <source src="/audio/takaramonogatari.mp3" type="audio/mpeg" />
         </audio>
         <AudioButton onClick={toggleAudio}>
           {isPlaying ? <PauseIcon /> : <PlayIcon />}
