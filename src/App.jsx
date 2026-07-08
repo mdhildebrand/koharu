@@ -3,7 +3,7 @@ import './App.css'
 import styled, { keyframes } from 'styled-components'
 
 const BackgroundWrapper = styled.div`
-  width: 100vw;
+  // width: 100vw;
   height: 100vh;
   position: relative;
 `;
