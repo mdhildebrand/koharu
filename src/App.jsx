@@ -1,8 +1,22 @@
 import React, { useState, useRef } from 'react'
 import './App.css'
-import { projects } from './data/data'
-import ProjectShowcase from './components/ProjectShowcase/ProjectShowcase'
 import styled from 'styled-components'
+
+const BackgroundWrapper = styled.div`
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+`;
+
+const BGImage = styled.div`
+  min-height: 100%;
+  min-width: 100%;
+  position: absolute;
+  background-size: cover;
+  background-position-y: bottom;
+  background-image: url(./images/${(props) => props.url ? props.url : 'BG_TrinityMarket.jpg'};
+  mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 70%, rgba(8, 8, 8, 0.4) 80%);
+`;
 
 const AppWrapper = styled.div`
   width: 100%;
@@ -10,6 +24,7 @@ const AppWrapper = styled.div`
   width: 1126px;
   max-width: 100%;
   margin: 0 auto;
+  position: relative;
   z-index: 10;
 
   h1 {
@@ -87,17 +102,20 @@ function App() {
   }
 
   return (
-    <AppWrapper>
-      <Header>
-        <h1>Koharu</h1>
-        <audio ref={audioRef} loop>
-          <source src="/audio/takaramonogatari.mp3" type="audio/mpeg" />
-        </audio>
-        <AudioButton onClick={toggleAudio}>
-          {isPlaying ? <PauseIcon /> : <PlayIcon />}
-        </AudioButton>
-      </Header>
-    </AppWrapper>
+    <BackgroundWrapper>
+      <BGImage url={'BG_TrinityMarket.jpg'} />
+      <AppWrapper>
+        <Header>
+          <h1>Koharu</h1>
+          <audio ref={audioRef} loop>
+            <source src="/audio/takaramonogatari.mp3" type="audio/mpeg" />
+          </audio>
+          <AudioButton onClick={toggleAudio}>
+            {isPlaying ? <PauseIcon /> : <PlayIcon />}
+          </AudioButton>
+        </Header>
+      </AppWrapper>
+    </BackgroundWrapper>
   )
 }
 

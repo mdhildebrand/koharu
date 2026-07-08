@@ -67,21 +67,6 @@ body {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-
-  background-image: url('/src/assets/cat_tile.png');
-  background-color: rgba(0,0,0,0.9);
-  background-blend-mode: darken;
-
-  &:after {
-    content: '';
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: linear-gradient(20deg, rgba(100, 0, 0, 0.8), 10%, rgba(0,0,0,0));
-    animation: throb 4s ease-in-out infinite;
-  }
 }
 
 h1,
