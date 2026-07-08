@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import './App.css'
 import styled from 'styled-components'
 
@@ -8,14 +8,27 @@ const BackgroundWrapper = styled.div`
   position: relative;
 `;
 
-const BGImage = styled.div`
-  min-height: 100%;
-  min-width: 100%;
+const BGImageWrapper = styled.div`
+  width: 100%;
+  height: 100%;
   position: absolute;
-  background-size: cover;
-  background-position-y: bottom;
-  background-image: url(./images/${(props) => props.url ? props.url : 'BG_TrinityMarket.jpg'};
+`;
+
+const BGImage = styled.img`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  object-fit: cover;
   mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 70%, rgba(8, 8, 8, 0.4) 80%);
+  opacity: 0%;
+
+  transition: opacity 0.5s ease-in-out;
+
+  &.active {
+    opacity: 100%;
+  }
 `;
 
 const AppWrapper = styled.div`
@@ -88,9 +101,17 @@ export const PauseIcon = () => (
   </svg>
 );
 
+const bgimages = [
+  'BG_TrinityMarket.jpg',
+  'BG_TrinityStreet.jpg',
+  'BG_TrinityCampusPlaza.jpg',
+]
+
 function App() {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [currentBG, setCurrentBG] = useState(0);
+  const backgroundArray = useRef(null);
 
   const toggleAudio = () => {
     if (isPlaying) {
@@ -101,9 +122,27 @@ function App() {
     setIsPlaying(!isPlaying);
   }
 
+  useEffect(() => {
+    const cycleBG = () => {
+      setCurrentBG((prevIndex) => (prevIndex + 1) % bgimages.length);
+    };
+
+    const bgCycle = setInterval(cycleBG, 5000);
+
+    return () => clearInterval(bgCycle);
+  }, [])
+
   return (
     <BackgroundWrapper>
-      <BGImage url={'BG_TrinityMarket.jpg'} />
+      <BGImageWrapper ref={backgroundArray}>
+        {bgimages.map((url, i) => (
+          <BGImage
+            key={i}
+            src={`/images/${url}`}
+            className={i === currentBG ? 'active' : ''}
+          />
+        ))}
+      </BGImageWrapper>
       <AppWrapper>
         <Header>
           <h1>Koharu</h1>
