@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import './App.css'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 
 const BackgroundWrapper = styled.div`
   width: 100vw;
@@ -24,10 +24,80 @@ const BGImage = styled.img`
   mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 70%, rgba(8, 8, 8, 0.4) 80%);
   opacity: 0%;
 
-  transition: opacity 0.5s ease-in-out;
+  transition: opacity 0.35s ease-in-out;
 
   &.active {
     opacity: 100%;
+  }
+`;
+
+const bxMove = keyframes`
+  0%   { left: 0%; }
+  50%  { left: 100%; }
+  100% { left: 0%; }
+`;
+
+const arcBounce = keyframes`
+  0%   { transform: translateY(0);     animation-timing-function: ease-out; }
+  10%  { transform: translateY(-40%); animation-timing-function: ease-in;  }
+  20%  { transform: translateY(0);     animation-timing-function: ease-out; }
+  30%  { transform: translateY(-40%); animation-timing-function: ease-in;  }
+  40%  { transform: translateY(0);     animation-timing-function: ease-out; }
+  50%  { transform: translateY(-40%); animation-timing-function: ease-in;  }
+  60%  { transform: translateY(0);     animation-timing-function: ease-out; }
+  70%  { transform: translateY(-40%); animation-timing-function: ease-in;  }
+  80%  { transform: translateY(0);     animation-timing-function: ease-out; }
+  90%  { transform: translateY(-40%); animation-timing-function: ease-in;  }
+  100% { transform: translateY(0); }
+`;
+
+const instantFlip = keyframes`
+  0%, 49.999%  { transform: scaleX(-1); }
+  50%, 100%    { transform: scaleX(1); }
+`;
+
+const KoharuTrackWrapper = styled.div`
+  position: absolute;
+  width: 100%;
+  display: flex;
+  bottom: 0;
+`;
+
+const KoharuTrack = styled.div`
+  position: relative;
+  flex-grow: 1;
+`;
+
+const KoharuPlaceholder = styled.img`
+  max-width: 60vw;
+  max-height: 60vh;
+  opacity: 0%;
+`
+
+const KoharuContainer = styled.div`
+  position: absolute;
+  bottom: 0;
+  max-width: fit-content;
+  max-height: fit-content;
+
+  animation:
+    ${bxMove} 5s linear infinite,
+    ${arcBounce} 5s infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+`
+
+const KoharuSprite = styled.img`
+  display: block;
+  max-width: 60vw;
+  max-height: 60vh;
+
+  animation: ${instantFlip} 5s steps(1) infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
   }
 `;
 
@@ -127,7 +197,7 @@ function App() {
       setCurrentBG((prevIndex) => (prevIndex + 1) % bgimages.length);
     };
 
-    const bgCycle = setInterval(cycleBG, 5000);
+    const bgCycle = setInterval(cycleBG, 7000);
 
     return () => clearInterval(bgCycle);
   }, [])
@@ -143,6 +213,14 @@ function App() {
           />
         ))}
       </BGImageWrapper>
+      <KoharuTrackWrapper>
+        <KoharuTrack>
+          <KoharuContainer>
+            <KoharuSprite src='/images/koharu_restricted.png' />
+          </KoharuContainer>
+        </KoharuTrack>
+        <KoharuPlaceholder src='/images/koharu_restricted.png' />
+      </KoharuTrackWrapper>
       <AppWrapper>
         <Header>
           <h1>Koharu</h1>
